@@ -30,7 +30,7 @@
         {
             this.GTAPATH = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BTN_AUTOPATCHER = new System.Windows.Forms.Button();
             this.RestoreBackup = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -50,15 +50,15 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "GTA Path: Please Don\'t change it unless its wrong";
             // 
-            // button1
+            // BTN_AUTOPATCHER
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(107, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Start Autopatcher";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.BTN_AUTOPATCHER.Location = new System.Drawing.Point(12, 12);
+            this.BTN_AUTOPATCHER.Name = "BTN_AUTOPATCHER";
+            this.BTN_AUTOPATCHER.Size = new System.Drawing.Size(107, 23);
+            this.BTN_AUTOPATCHER.TabIndex = 2;
+            this.BTN_AUTOPATCHER.Text = "Start Autopatcher";
+            this.BTN_AUTOPATCHER.UseVisualStyleBackColor = true;
+            this.BTN_AUTOPATCHER.Click += new System.EventHandler(this.BTN_AUTOPATCHER_Click);
             // 
             // RestoreBackup
             // 
@@ -76,9 +76,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(307, 202);
             this.Controls.Add(this.RestoreBackup);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BTN_AUTOPATCHER);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.GTAPATH);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "GTAPATCHERSPEEDRUN";
             this.Text = "GTA-AutoPatcher-Speedrun";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -91,7 +94,7 @@
 
         private System.Windows.Forms.TextBox GTAPATH;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BTN_AUTOPATCHER;
         private System.Windows.Forms.Button RestoreBackup;
     }
 }
