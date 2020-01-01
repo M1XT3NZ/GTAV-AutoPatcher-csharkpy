@@ -17,6 +17,7 @@ namespace AutoPatcher_csharkpy
 {
     public partial class GTAPATCHERSPEEDRUN : Form
     {
+
         MConsole sconsole = new MConsole();
         public GTAPATCHERSPEEDRUN()
         {
@@ -149,6 +150,12 @@ namespace AutoPatcher_csharkpy
 
                         File.Copy(s + @"\Common\update.rpf", GTAPATH.Text + @"\update\update.rpf");
 
+                        sconsole.LOG("Creating Shortcut");
+                        var wsh = new IWshRuntimeLibrary.IWshShell_Class();
+                        IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
+                            GTAPATH.Text + "\\GTAVLauncher.lnk") as IWshRuntimeLibrary.IWshShortcut;
+                        shortcut.TargetPath = GTAPATH.Text + "GTAVLauncher.exe";
+                        shortcut.Save();
                         sconsole.LOG("STEAM: Downgrade should have been successful");
                         MessageBox.Show("STEAM: Downgrade should have been successful");
                     }
@@ -180,6 +187,7 @@ namespace AutoPatcher_csharkpy
                         Process p = new Process();
                         //sconsole.LOG("Uninstalling Social Club...");
                         RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Rockstar Games", true);
+                        sconsole.LOG("Deleting Social Club REG KEY");
                         key.DeleteSubKey("Rockstar Games Social Club");
 
                         key.OpenSubKey("Version", RegistryKeyPermissionCheck.ReadWriteSubTree);
@@ -189,6 +197,7 @@ namespace AutoPatcher_csharkpy
                         p.StartInfo.FileName = s + @"\common\uninstall.exe";
                         p.Start();
                         Thread.Sleep(1000);
+                        sconsole.LOG("Rockstar Games Launcher Uninstaller Started");
                         while (!p.HasExited)
                         {
                             if (p.HasExited)
@@ -201,10 +210,10 @@ namespace AutoPatcher_csharkpy
                                 Thread.Sleep(500);
                             }
                         }
-                        p.WaitForExit(500000);
                         p.StartInfo.FileName = s + @"\Rockstar\Social-Club-v1.1.6.0-Setup.exe";
                         p.Start();
                         Thread.Sleep(1000);
+                        sconsole.LOG("Social Club Installer Started");
                         while (!p.HasExited)
                         {
                             if (p.HasExited)
@@ -230,7 +239,12 @@ namespace AutoPatcher_csharkpy
                         File.Copy(s + @"\Rockstar\GFSDK_ShadowLib.win64.dll", GTAPATH.Text + "GFSDK_ShadowLib.win64.dll", true);
 
                         File.Copy(s + @"\Common\update.rpf", GTAPATH.Text + @"\update\update.rpf", true);
-
+                        sconsole.LOG("Creating Shortcut");
+                        var wsh = new IWshRuntimeLibrary.IWshShell_Class();
+                        IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
+                            GTAPATH.Text + "\\GTAVLauncher.lnk") as IWshRuntimeLibrary.IWshShortcut;
+                        shortcut.TargetPath = GTAPATH.Text + "GTAVLauncher.exe";
+                        shortcut.Save();
                         sconsole.LOG("ROCKSTAR: Downgrade should have been successful");
                         MessageBox.Show("ROCKSTAR: Downgrade should have been successful");
                     }
@@ -309,6 +323,15 @@ namespace AutoPatcher_csharkpy
             {
                 sconsole.LOG("Messagebox Got A No Or Got Closed");
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var wsh = new IWshRuntimeLibrary.IWshShell_Class();
+            IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
+                GTAPATH.Text + "\\GTAVLauncher.lnk") as IWshRuntimeLibrary.IWshShortcut;
+            shortcut.TargetPath = GTAPATH.Text + "GTAVLauncher.exe";
+            shortcut.Save();
         }
     }
 }
