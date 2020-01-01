@@ -50,6 +50,7 @@ namespace AutoPatcher_csharkpy
 
             DialogResult dialogResult = MessageBox.Show("Please Read The README It's IMPORTANT\nDo You Want To Open it Now?\nYou Can Open It With A Button In The Program\nOr Just Open It In The Folder Later","ATTENTION",MessageBoxButtons.YesNo,MessageBoxIcon.Error);
             sconsole.Init("LOG");
+            sconsole.writetofile = true;
             if (dialogResult == DialogResult.Yes)
             {
                 Process.Start("README.txt");
@@ -63,7 +64,7 @@ namespace AutoPatcher_csharkpy
             GTAPATH.Text = checkversion();
             if (GTAPATH.Text.Length != 0)
             {
-                MessageBox.Show("GTA Folder Found sucessfully");
+                MessageBox.Show("GTA Folder Found successfully");
                 sconsole.LOG("GTA Folder found successfully");
             }
             else
@@ -87,7 +88,6 @@ namespace AutoPatcher_csharkpy
                     Thread.Sleep(200);
                     string s = Directory.GetCurrentDirectory();
                     if(!File.Exists(GTAPATH.Text + @"\GTA5.exe") ||
-                        !File.Exists(GTAPATH.Text + @"\PlayGTAV.exe") ||
                         !File.Exists(GTAPATH.Text + @"\GTAVLauncher.exe") ||
                         !File.Exists(GTAPATH.Text + @"\steam_api64.dll") ||
                         !File.Exists(GTAPATH.Text + @"\update\update.rpf") )
@@ -99,7 +99,6 @@ namespace AutoPatcher_csharkpy
                     {
                         sconsole.LOG("Backing Up Files");//Backing Up all important files,
                         File.Move(GTAPATH.Text + @"\GTA5.exe", s + @"\Backup\Steam\GTA5.exe");
-                        File.Move(GTAPATH.Text + @"\PlayGTAV.exe", s + @"\Backup\Steam\PlayGTAV.exe");
                         File.Move(GTAPATH.Text + @"\GTAVLauncher.exe", s + @"\Backup\Steam\GTAVLauncher.exe");
                         File.Move(GTAPATH.Text + @"\steam_api64.dll", s + @"\Backup\Steam\steam_api64.dll");
                         File.Move(GTAPATH.Text + @"\update\update.rpf", s + @"\Backup\Steam\update.rpf");
@@ -108,21 +107,7 @@ namespace AutoPatcher_csharkpy
                         RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Rockstar Games\Rockstar Games Social Club");
                         key.SetValue("Version", "1.0.0.0");
                         key.Close();
-                        sconsole.LOG("Uninstalling Social Club...");
-                        p.StartInfo.FileName = s + @"\common\uninstallRGSCRedistributable.exe";
-                        p.Start();
-                        while(true)
-                        {
-                            if (p.HasExited)
-                            {
-                                sconsole.LOG("Socialclub probably has been sucessfully uninstalled");
-                                break;
-                            }
-                            else
-                            {
-                                Thread.Sleep(500);
-                            }
-                        }
+
                         p.StartInfo.FileName = s + @"\common\uninstall.exe";
                         p.Start();
                         while(true)
@@ -157,11 +142,11 @@ namespace AutoPatcher_csharkpy
                         if (File.Exists(GTAPATH.Text + "GTAVLauncher.exe")) { File.Delete(GTAPATH.Text + "GTAVLauncher.exe"); }
                         if (File.Exists(GTAPATH.Text + "steam_api64.dll")) { File.Delete(GTAPATH.Text + "steam_api64.dll"); }
                         if (File.Exists(GTAPATH.Text + @"\update\update.rpf")) { File.Delete(GTAPATH.Text + @"\update\update.rpf"); }
-                        File.Move(s + @"\Steam\GTA5.exe", GTAPATH.Text + "GTA5.exe");
-                        File.Move(s + @"\Steam\GTAVLauncher.exe", GTAPATH.Text + "GTAVLauncher.exe");
-                        File.Move(s + @"\Steam\steam_api64.dll", GTAPATH.Text + "steam_api64.dll");
+                        File.Copy(s + @"\Steam\GTA5.exe", GTAPATH.Text + "GTA5.exe");
+                        File.Copy(s + @"\Steam\GTAVLauncher.exe", GTAPATH.Text + "GTAVLauncher.exe");
+                        File.Copy(s + @"\Steam\steam_api64.dll", GTAPATH.Text + "steam_api64.dll");
 
-                        File.Move(s + @"\Common\update.rpf", GTAPATH.Text + @"\update\update.rpf");
+                        File.Copy(s + @"\Common\update.rpf", GTAPATH.Text + @"\update\update.rpf");
 
                     }
 
@@ -174,7 +159,6 @@ namespace AutoPatcher_csharkpy
                     Thread.Sleep(200);
                     string s = Directory.GetCurrentDirectory();
                     if (!File.Exists(GTAPATH.Text + @"\GTA5.exe") ||
-                        !File.Exists(GTAPATH.Text + @"\PlayGTAV.exe") ||
                         !File.Exists(GTAPATH.Text + @"\GTAVLauncher.exe") ||
                         !File.Exists(GTAPATH.Text + @"\update\update.rpf"))
                     {
@@ -184,30 +168,25 @@ namespace AutoPatcher_csharkpy
                     else
                     {
                         sconsole.LOG("Backing Up Files");
-                        File.Move(GTAPATH.Text + @"\GTA5.exe", s + @"\Backup\Rockstar\GTA5.exe");
-                        File.Move(GTAPATH.Text + @"\PlayGTAV.exe", s + @"\Backup\Rockstar\PlayGTAV.exe");
-                        File.Move(GTAPATH.Text + @"\GTAVLauncher.exe", s + @"\Backup\Rockstar\GTAVLauncher.exe");
-                        File.Move(GTAPATH.Text + @"\update\update.rpf", s + @"\Backup\Rockstar\update.rpf");
-
+                        File.Copy(GTAPATH.Text + @"\GTA5.exe", s + @"\Backup\Rockstar\GTA5.exe",true);
+                        Thread.Sleep(300);
+                        File.Copy(GTAPATH.Text + @"\GTAVLauncher.exe", s + @"\Backup\Rockstar\GTAVLauncher.exe", true);
+                        Thread.Sleep(300);
+                        File.Copy(GTAPATH.Text + @"\update\update.rpf", s + @"\Backup\Rockstar\update.rpf", true);
+                        Thread.Sleep(300);
                         Process p = new Process();
-                        sconsole.LOG("Uninstalling Social Club...");
-                        p.StartInfo.FileName = s + @"\common\uninstallRGSCRedistributable.exe";
-                        p.Start();
-                        while (true)
-                        {
-                            if (p.HasExited)
-                            {
-                                sconsole.LOG("Socialclub probably has been sucessfully uninstalled");
-                                break;
-                            }
-                            else
-                            {
-                                Thread.Sleep(500);
-                            }
-                        }
+                        //sconsole.LOG("Uninstalling Social Club...");
+                        RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Rockstar Games", true);
+                        key.DeleteSubKey("Rockstar Games Social Club");
+
+                        key.OpenSubKey("Version", RegistryKeyPermissionCheck.ReadWriteSubTree);
+                        key.SetValue("Version", "1.0.0.0",RegistryValueKind.String);
+                        key.Close();
+
                         p.StartInfo.FileName = s + @"\common\uninstall.exe";
                         p.Start();
-                        while (true)
+                        Thread.Sleep(1000);
+                        while (!p.HasExited)
                         {
                             if (p.HasExited)
                             {
@@ -219,9 +198,11 @@ namespace AutoPatcher_csharkpy
                                 Thread.Sleep(500);
                             }
                         }
+                        p.WaitForExit(500000);
                         p.StartInfo.FileName = s + @"\Rockstar\Social-Club-v1.1.6.0-Setup.exe";
                         p.Start();
-                        while (true)
+                        Thread.Sleep(1000);
+                        while (!p.HasExited)
                         {
                             if (p.HasExited)
                             {
@@ -239,13 +220,16 @@ namespace AutoPatcher_csharkpy
                         if (File.Exists(GTAPATH.Text + "GTAVLauncher.exe")){ File.Delete(GTAPATH.Text +"GTAVLauncher.exe"); }
                         if (File.Exists(GTAPATH.Text + "x64a.rpf")) { File.Delete(GTAPATH.Text+"x64a.rpf"); }
                         if (File.Exists(GTAPATH.Text + @"\update\update.rpf")) { File.Delete(GTAPATH.Text + @"\update\update.rpf"); }
-                        File.Move(s + @"\Rockstar\GTA5.exe",GTAPATH.Text +"GTA5.exe");
-                        File.Move(s + @"\Rockstar\GTAVLauncher.exe", GTAPATH.Text + "GTAVLauncher.exe");
-                        File.Move(s + @"\Rockstar\x64a.rpf", GTAPATH.Text + "x64a.rpf");
+                        File.Copy(s + @"\Rockstar\GTA5.exe",GTAPATH.Text +"GTA5.exe",true);
+                        File.Copy(s + @"\Rockstar\GTAVLauncher.exe", GTAPATH.Text + "GTAVLauncher.exe", true);
+                        File.Copy(s + @"\Rockstar\x64a.rpf", GTAPATH.Text + "x64a.rpf", true);
                         if (File.Exists(GTAPATH.Text + "GFSDK_ShadowLib.win64.dll")) { File.Delete(GTAPATH.Text + "GFSDK_ShadowLib.win64.dll"); }
-                        File.Move(s + @"\Rockstar\GFSDK_ShadowLib.win64.dll", GTAPATH.Text + "GFSDK_ShadowLib.win64.dll");
+                        File.Copy(s + @"\Rockstar\GFSDK_ShadowLib.win64.dll", GTAPATH.Text + "GFSDK_ShadowLib.win64.dll", true);
 
-                        File.Move(s + @"\Common\update.rpf", GTAPATH.Text + @"\update\update.rpf");
+                        File.Copy(s + @"\Common\update.rpf", GTAPATH.Text + @"\update\update.rpf", true);
+
+                        sconsole.LOG("ROCKSTAR: Downgrade should have been successful");
+                        MessageBox.Show("ROCKSTAR: Downgrade should have been successful");
                     }
 
                 }
@@ -273,17 +257,24 @@ namespace AutoPatcher_csharkpy
                     Thread.Sleep(200);
                     string s = Directory.GetCurrentDirectory();
                     sconsole.LOG("Restoring Files");
-
-                    if (File.Exists(GTAPATH.Text + "GTA5.exe")) { File.Delete(GTAPATH.Text + "GTA5.exe"); }
-                    if (File.Exists(GTAPATH.Text + "GTAVLauncher.exe")) { File.Delete(GTAPATH.Text + "GTAVLauncher.exe"); }
-                    if (File.Exists(GTAPATH.Text + "steam_api64.dll")) { File.Delete(GTAPATH.Text + "steam_api64.dll"); }
-                    if (File.Exists(GTAPATH.Text + @"\update\update.rpf")) { File.Delete(GTAPATH.Text + @"\update\update.rpf"); }
-                    File.Move(s + @"\Backup\Steam\GTA5.exe", GTAPATH.Text + @"\GTA5.exe");
-                    File.Move(s + @"\Backup\Steam\PlayGTAV.exe",GTAPATH.Text + @"\PlayGTAV.exe");
-                    File.Move(s + @"\Backup\Steam\GTAVLauncher.exe",GTAPATH.Text + @"\GTAVLauncher.exe");
-                    File.Move(s + @"\Backup\Steam\steam_api64.dll",GTAPATH.Text + @"\steam_api64.dll");
-                    File.Move(s + @"\Backup\Steam\update.rpf",GTAPATH.Text + @"\update\update.rpf");
-                    MessageBox.Show("Everything should be sucessfully restored if not please post a github issue\n with the log of the program");
+                    try
+                    {
+                        if (File.Exists(GTAPATH.Text + "GTA5.exe")) { File.Delete(GTAPATH.Text + "GTA5.exe"); }
+                        if (File.Exists(GTAPATH.Text + "GTAVLauncher.exe")) { File.Delete(GTAPATH.Text + "GTAVLauncher.exe"); }
+                        if (File.Exists(GTAPATH.Text + "steam_api64.dll")) { File.Delete(GTAPATH.Text + "steam_api64.dll"); }
+                        if (File.Exists(GTAPATH.Text + @"\update\update.rpf")) { File.Delete(GTAPATH.Text + @"\update\update.rpf"); }
+                        File.Copy(s + @"\Backup\Steam\GTA5.exe", GTAPATH.Text + @"\GTA5.exe");
+                        //File.Move(s + @"\Backup\Steam\PlayGTAV.exe",GTAPATH.Text + @"\PlayGTAV.exe");
+                        File.Copy(s + @"\Backup\Steam\GTAVLauncher.exe", GTAPATH.Text + @"\GTAVLauncher.exe", true);
+                        File.Copy(s + @"\Backup\Steam\steam_api64.dll", GTAPATH.Text + @"\steam_api64.dll", true);
+                        File.Copy(s + @"\Backup\Steam\update.rpf", GTAPATH.Text + @"\update\update.rpf", true);
+                        MessageBox.Show("Everything should be sucessfully restored if not please post a github issue\n with the log of the program");
+                    }
+                    catch(Exception f)
+                    {
+                        MessageBox.Show(f.Message.ToString(), "ERROR");
+                        sconsole.LOG(f.Message.ToString());
+                    }
                 }
                 else
                 {
@@ -291,16 +282,22 @@ namespace AutoPatcher_csharkpy
                     Thread.Sleep(200);
                     string s = Directory.GetCurrentDirectory();
                     sconsole.LOG("Restoring Files");
-
-                    if (File.Exists(GTAPATH.Text + "GTA5.exe")) { File.Delete(GTAPATH.Text + "GTA5.exe"); }
-                    if (File.Exists(GTAPATH.Text + "GTAVLauncher.exe")) { File.Delete(GTAPATH.Text + "GTAVLauncher.exe"); }
-                    if (File.Exists(GTAPATH.Text + "x64a.rpf")) { File.Delete(GTAPATH.Text + "x64a.rpf"); }
-                    if (File.Exists(GTAPATH.Text + @"\update\update.rpf")) { File.Delete(GTAPATH.Text + @"\update\update.rpf"); }
-                    File.Move(s + @"\Backup\Rockstar\GTA5.exe",GTAPATH.Text + @"\GTA5.exe");
-                    File.Move(s + @"\Backup\Rockstar\PlayGTAV.exe",GTAPATH.Text + @"\PlayGTAV.exe");
-                    File.Move(s + @"\Backup\Rockstar\GTAVLauncher.exe",GTAPATH.Text + @"\GTAVLauncher.exe");
-                    File.Move(s + @"\Backup\Rockstar\update.rpf",GTAPATH.Text + @"\update\update.rpf");
-                    MessageBox.Show("Everything should be sucessfully restored if not please post a github issue\n with the log of the program");
+                    try
+                    {
+                        if (File.Exists(GTAPATH.Text + "GTA5.exe")) { File.Delete(GTAPATH.Text + "GTA5.exe"); }
+                        if (File.Exists(GTAPATH.Text + "GTAVLauncher.exe")) { File.Delete(GTAPATH.Text + "GTAVLauncher.exe"); }
+                        if (File.Exists(GTAPATH.Text + "x64a.rpf")) { File.Delete(GTAPATH.Text + "x64a.rpf"); }
+                        if (File.Exists(GTAPATH.Text + @"\update\update.rpf")) { File.Delete(GTAPATH.Text + @"\update\update.rpf"); }
+                        File.Copy(s + @"\Backup\Rockstar\GTA5.exe", GTAPATH.Text + @"\GTA5.exe",true); 
+                        File.Copy(s + @"\Backup\Rockstar\GTAVLauncher.exe", GTAPATH.Text + @"\GTAVLauncher.exe",true);
+                        File.Copy(s + @"\Backup\Rockstar\update.rpf", GTAPATH.Text + @"\update\update.rpf", true);
+                        MessageBox.Show("Everything should be sucessfully restored if not please post a github issue\n with the log of the program");
+                    }
+                    catch(Exception f)
+                    {
+                        MessageBox.Show(f.Message.ToString(),"ERROR");
+                        sconsole.LOG(f.Message.ToString());
+                    }
                 }
 
 
