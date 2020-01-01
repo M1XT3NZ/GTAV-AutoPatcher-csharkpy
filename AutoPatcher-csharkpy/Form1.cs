@@ -145,6 +145,7 @@ namespace AutoPatcher_csharkpy
                         File.Copy(s + @"\Steam\GTA5.exe", GTAPATH.Text + "GTA5.exe");
                         File.Copy(s + @"\Steam\GTAVLauncher.exe", GTAPATH.Text + "GTAVLauncher.exe");
                         File.Copy(s + @"\Steam\steam_api64.dll", GTAPATH.Text + "steam_api64.dll");
+                        File.Copy(GTAPATH.Text + "GTAVLauncher.exe", GTAPATH.Text + "PlayGTAV.exe");
 
                         File.Copy(s + @"\Common\update.rpf", GTAPATH.Text + @"\update\update.rpf");
 
