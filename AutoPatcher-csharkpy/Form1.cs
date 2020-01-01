@@ -154,6 +154,7 @@ namespace AutoPatcher_csharkpy
                         var wsh = new IWshRuntimeLibrary.IWshShell_Class();
                         IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
                             GTAPATH.Text + "\\GTAVLauncher.lnk") as IWshRuntimeLibrary.IWshShortcut;
+                        shortcut.Arguments = "-scOfflineOnly";
                         shortcut.TargetPath = GTAPATH.Text + "GTAVLauncher.exe";
                         shortcut.Save();
                         sconsole.LOG("STEAM: Downgrade should have been successful");
@@ -243,6 +244,7 @@ namespace AutoPatcher_csharkpy
                         var wsh = new IWshRuntimeLibrary.IWshShell_Class();
                         IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
                             GTAPATH.Text + "\\GTAVLauncher.lnk") as IWshRuntimeLibrary.IWshShortcut;
+                        shortcut.Arguments = "-scOfflineOnly";
                         shortcut.TargetPath = GTAPATH.Text + "GTAVLauncher.exe";
                         shortcut.Save();
                         sconsole.LOG("ROCKSTAR: Downgrade should have been successful");
@@ -325,13 +327,5 @@ namespace AutoPatcher_csharkpy
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var wsh = new IWshRuntimeLibrary.IWshShell_Class();
-            IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
-                GTAPATH.Text + "\\GTAVLauncher.lnk") as IWshRuntimeLibrary.IWshShortcut;
-            shortcut.TargetPath = GTAPATH.Text + "GTAVLauncher.exe";
-            shortcut.Save();
-        }
     }
 }
