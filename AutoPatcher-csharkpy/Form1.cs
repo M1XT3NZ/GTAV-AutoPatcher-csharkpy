@@ -98,10 +98,10 @@ namespace AutoPatcher_csharkpy
                     else
                     {
                         sconsole.LOG("Backing Up Files");//Backing Up all important files,
-                        File.Move(GTAPATH.Text + @"\GTA5.exe", s + @"\Backup\Steam\GTA5.exe");
-                        File.Move(GTAPATH.Text + @"\GTAVLauncher.exe", s + @"\Backup\Steam\GTAVLauncher.exe");
-                        File.Move(GTAPATH.Text + @"\steam_api64.dll", s + @"\Backup\Steam\steam_api64.dll");
-                        File.Move(GTAPATH.Text + @"\update\update.rpf", s + @"\Backup\Steam\update.rpf");
+                        File.Copy(GTAPATH.Text + @"\GTA5.exe", s + @"\Backup\Steam\GTA5.exe",true);
+                        File.Copy(GTAPATH.Text + @"\GTAVLauncher.exe", s + @"\Backup\Steam\GTAVLauncher.exe", true);
+                        File.Copy(GTAPATH.Text + @"\steam_api64.dll", s + @"\Backup\Steam\steam_api64.dll", true);
+                        File.Copy(GTAPATH.Text + @"\update\update.rpf", s + @"\Backup\Steam\update.rpf", true);
 
                         Process p = new Process();
                         RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Rockstar Games\Rockstar Games Social Club");
@@ -148,6 +148,8 @@ namespace AutoPatcher_csharkpy
 
                         File.Copy(s + @"\Common\update.rpf", GTAPATH.Text + @"\update\update.rpf");
 
+                        sconsole.LOG("STEAM: Downgrade should have been successful");
+                        MessageBox.Show("STEAM: Downgrade should have been successful");
                     }
 
 
